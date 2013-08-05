@@ -1,12 +1,14 @@
 :ruby
   js_data = {
     :jspath => asset_path(field.location ? field.location : field.base_location + "ckeditor.js"),
-    :base_location => asset_path(field.base_location),
+    :base_location => field.base_location,
     :options => {
-      :customConfig => field.config_js ? field.config_js : field.base_location + "config.js"
+      :customConfig => asset_path(field.config_js ? field.config_js : field.base_location + "config.js")
     }
   }
 
 %div
   =js_data[:jspath]
+  %br
+  =js_data[:options][:customConfig]
 = form.text_area field.method_name, field.html_attributes.reverse_merge(:data => { :richtext => 'ckeditor', :options => js_data.to_json }).reverse_merge((hdv = field.html_default_value).nil? ? { :value => field.formatted_value } : { :value => hdv })
